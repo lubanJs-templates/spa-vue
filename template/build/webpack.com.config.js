@@ -57,7 +57,7 @@ module.exports = {
       '@': path.resolve(__dirname, '../src'),
     },
   },
-  //  stats: 'errors-only',
+  stats: 'errors-only',
   module: {
     rules: [
       {
