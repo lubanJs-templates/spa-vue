@@ -18,11 +18,11 @@ const plugins = [
   new FriendlyErrorsWebpackPlugin(),
   ...dllReferenceList,
   new HtmlWebpackPlugin({
-    title: 'Webpack Output Management',
+    title: '{{ name }}',
     filename: 'index.html',
     template: path.resolve(__dirname, '../public/index.html'),
   }),
-  ...addAssetHtmlList
+  ...addAssetHtmlList,
 ]
 
 const files = fs.readdirSync(path.resolve(__dirname, '../dll'))
@@ -91,7 +91,6 @@ module.exports = {
               outputPath: 'static/images',
             },
           },
-          'image-webpack-loader', // TODOS: 这里有待优化压缩图片会使打包速度变慢
         ],
       },
       {

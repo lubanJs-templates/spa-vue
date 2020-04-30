@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const smp = new SpeedMeasurePlugin()
 
@@ -41,6 +42,12 @@ const webpackConfig = merge.smart(commonConfig, {
     new MiniCssExtractPlugin({
       filename: 'static/css/style.[contenthash:6].css',
     }),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../public'),
+        to: path.resolve(__dirname, '../dist'),
+      },
+    ]),
   ],
   optimization: {
     minimize: true,
@@ -49,7 +56,8 @@ const webpackConfig = merge.smart(commonConfig, {
       new OptimizeCssAssetsWebpackPlugin(),
       // 压缩js
       new TerserPlugin({
-        parallel: true
+        parallel: true,
+        extractComments: false,
       }),
     ],
   },

@@ -1,0 +1,29 @@
+{
+  "name": "spa-vue",
+  "version": "1.0.0",
+  "description": "spa-vue",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lubanJs-templates/spa-vue.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lubanJs-templates/spa-vue/issues"
+  },
+  "homepage": "https://github.com/lubanJs-templates/spa-vue#readme",
+  "husky": {
+    "hooks": {
+      "commit-msg": "validate-commit-msg"
+    }
+  },
+  "devDependencies": {
+    "husky": "^4.2.5",
+    "validate-commit-msg": "^2.14.0"
+  }
+}
