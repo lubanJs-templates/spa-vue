@@ -23,23 +23,7 @@
         "en":  "Author",
         "zh_CN": "作者"
       }
-    },
-    "license": {
-      "type": "string",
-      "label": {
-        "en":  "License",
-        "zh_CN": "许可证"
-      },
-      "default": "MIT"
-    },
-    "sass": {
-       "type": "confirm",
-       "label": {
-        "en":  "Use sass?",
-        "zh_CN": "使用 sass?"
-      },
-       "default": false
     }
   },
-  "completeMessage": "{{#inPlace}}\n\n  cd {{destDirName}}\n  npm install\n  npm run dev{{/inPlace}}"
+  "completeMessage": "{{#inPlace}}\n\n  cd {{destDirName}}\n  npm install --registry=https://registry.npm.taobao.org\n  npm run dev{{/inPlace}}"
 }
