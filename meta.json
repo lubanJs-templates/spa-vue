@@ -11,8 +11,8 @@
     "description": {
       "type": "string",
       "required": true,
-      "label":{
-        "en":  "Project description",
+      "label": {
+        "en": "Project description",
         "zh_CN": "项目描述"
       },
       "default": "A Vue.js project"
@@ -20,10 +20,10 @@
     "author": {
       "type": "string",
       "label": {
-        "en":  "Author",
+        "en": "Author",
         "zh_CN": "作者"
       }
     }
   },
-  "completeMessage": "{{#inPlace}}\n\n  cd {{destDirName}}\n  npm install --registry=https://registry.npm.taobao.org\n  npm run dev{{/inPlace}}"
+  "completeMessage": "{{#inPlace}}\n\n  cd {{destDirName}}\n  git init && npm install --registry=https://registry.npm.taobao.org\n  npm run dev{{/inPlace}}"
 }
