@@ -6,61 +6,56 @@ const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plug
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const smp = new SpeedMeasurePlugin()
 
 const webpackConfig = merge.smart(commonConfig, {
   output: {
-    filename: 'static/js/[name].[contenthash:6].bundle.js',
-    chunkFilename: 'static/js/vender.[id].[contenthash:6].js',
+    filename: 'static/js/[id]_[contenthash:6].bundle.js',
+    chunkFilename: 'static/js/[id]_[contenthash:6].chunk.js'
   },
   module: {
     rules: [
       {
         test: /\.css$/,
         exclude: /node_modules/,
-        use: [
-          { loader: MiniCssExtractPlugin.loader },
-          'css-loader',
-          'postcss-loader',
-        ],
+        use: [{ loader: MiniCssExtractPlugin.loader }, 'css-loader', 'postcss-loader']
       },
       {
         test: /\.less/,
-        use: [
-          { loader: MiniCssExtractPlugin.loader },
-          'css-loader',
-          'less-loader',
-          'postcss-loader',
-        ],
+        use: [{ loader: MiniCssExtractPlugin.loader }, 'css-loader', 'postcss-loader', 'less-loader'],
         exclude: /node_modules/,
-        include: path.resolve(__dirname, '../src'),
-      },
-    ],
+        include: path.resolve(__dirname, '../src')
+      }
+    ]
   },
   plugins: [
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: [path.resolve(__dirname, '../dist')]
+    }),
     new MiniCssExtractPlugin({
-      filename: 'static/css/style.[contenthash:6].css',
+      filename: 'static/css/[id]_[contenthash:6].css'
     }),
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../public'),
         to: path.resolve(__dirname, '../dist'),
-      },
-    ]),
+        ignore: ['.*']
+      }
+    ])
   ],
   optimization: {
-    minimize: true,
     minimizer: [
       // 压缩css
       new OptimizeCssAssetsWebpackPlugin(),
       // 压缩js
       new TerserPlugin({
         parallel: true,
-        extractComments: false,
-      }),
-    ],
+        extractComments: false
+      })
+    ]
   },
-  devtool: 'none',
+  devtool: 'none'
 })
 module.exports = smp.wrap(webpackConfig)

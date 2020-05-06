@@ -2,60 +2,73 @@ const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const fs = require('fs')
-const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin')
+
+const config = require('./config')
+
+const beforePlugins = [new VueLoaderPlugin(), new FriendlyErrorsWebpackPlugin()]
 
 const dllReferenceList = []
-const addAssetHtmlList = []
 
-const plugins = [
-  new CleanWebpackPlugin({
-    cleanAfterEveryBuildPatterns: ['dist'],
-  }),
-  new VueLoaderPlugin(),
-  new FriendlyErrorsWebpackPlugin(),
-  ...dllReferenceList,
-  new HtmlWebpackPlugin({
-    title: '{{ name }}',
-    filename: 'index.html',
-    template: path.resolve(__dirname, '../public/index.html'),
-  }),
-  ...addAssetHtmlList,
-]
-
-const files = fs.readdirSync(path.resolve(__dirname, '../dll'))
-
-files.forEach((file) => {
-  if (/.*\.dll.js/.test(file)) {
-    dllReferenceList.push(
-      new AddAssetHtmlWebpackPlugin({
-        filepath: path.resolve(__dirname, '../dll', file),
-      })
-    )
-  }
-  if (/.*\.manifest.json/.test(file)) {
-    addAssetHtmlList.push(
-      new webpack.DllReferencePlugin({
-        manifest: require(path.resolve(__dirname, '../dll', file)),
-      })
-    )
+const htmlWebpackplugin = new HtmlWebpackPlugin({
+  title: '{{name}}',
+  filename: 'index.html',
+  favicon: path.resolve(__dirname, '../public/favicon.ico'),
+  template: path.resolve(__dirname, '../public/index.html'),
+  static: {
+    css: [],
+    js: []
   }
 })
+function addTagsToHtml(publicPath, callback = () => {}) {
+  const files = fs.readdirSync(path.resolve(__dirname, '../public', publicPath))
+  files.forEach((file) => {
+    callback(file, publicPath)
+  })
+}
+
+function excuteCommonTags() {
+  let tags = config.common.tags
+  for (let dirPath of tags) {
+    addTagsToHtml(dirPath, (file, publicPath) => {
+      if (/\.js$/.test(file)) {
+        htmlWebpackplugin.options.static.js.push(path.join(publicPath, file))
+      }
+      if (/\.css$/.test(file)) {
+        htmlWebpackplugin.options.static.css.push(path.join(publicPath, file))
+      }
+    })
+  }
+}
+
+addTagsToHtml('static/libs', (file, publicPath) => {
+  if (/.*\.manifest.json/.test(file)) {
+    dllReferenceList.push(
+      new webpack.DllReferencePlugin({
+        manifest: require(path.resolve(__dirname, '../public', publicPath, file))
+      })
+    )
+  }
+  if (/.*\.dll.js/.test(file)) {
+    htmlWebpackplugin.options.static.js.push(path.join(publicPath, file))
+  }
+})
+
+excuteCommonTags()
+
+let plugins = beforePlugins.concat(dllReferenceList, htmlWebpackplugin)
 module.exports = {
   entry: path.resolve(__dirname, '../src/main.js'),
   output: {
-    filename: 'static/js/[name].bundle.js',
-    chunkFilename: 'static/js/[name].chunk.js',
+    filename: 'static/js/[name]_bundle.js',
+    chunkFilename: 'static/js/[name]_chunk.js',
     path: path.resolve(__dirname, '../dist'),
-    publicPath: '', // 设置访问的二级目录
+    publicPath: ''
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
-    alias: {
-      '@': path.resolve(__dirname, '../src'),
-    },
+    alias: config.common.alias
   },
   stats: 'errors-only',
   module: {
@@ -64,7 +77,7 @@ module.exports = {
         test: /\.vue$/,
         exclude: /node_modules/,
         include: path.resolve(__dirname, '../src'),
-        use: ['thread-loader', 'vue-loader'],
+        use: ['thread-loader', 'vue-loader']
       },
       {
         test: /\.js$/,
@@ -75,10 +88,10 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              cacheDirectory: true,
-            },
-          },
-        ],
+              cacheDirectory: true
+            }
+          }
+        ]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -86,12 +99,13 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
+              esModule: false,
               limit: 10000,
-              name: '[name].[hash:6].[ext]',
-              outputPath: 'static/images',
-            },
-          },
-        ],
+              name: '[name]_[hash:6].[ext]',
+              outputPath: 'static/images'
+            }
+          }
+        ]
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
@@ -100,24 +114,17 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: 'static/fonts',
-            },
-          },
-        ],
-      },
-    ],
+              outputPath: 'static/fonts'
+            }
+          }
+        ]
+      }
+    ]
   },
   plugins,
   optimization: {
     splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-          name: 'vendors',
-        },
-      },
-    },
-  },
+      chunks: 'all'
+    }
+  }
 }
