@@ -25,5 +25,5 @@
       }
     }
   },
-  "completeMessage": "{{#inPlace}}\n\n  cd {{destDirName}}\n  git init && npm install --registry=https://registry.npm.taobao.org\n  npm run dev{{/inPlace}}"
+  "completeMessage": "{{#inPlace}}\n\n  cd {{destDirName}}\n  npm install --registry=https://registry.npm.taobao.org\n  npm run dev{{/inPlace}}"
 }
