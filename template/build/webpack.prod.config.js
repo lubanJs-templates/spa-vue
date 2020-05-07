@@ -19,7 +19,6 @@ const webpackConfig = merge.smart(commonConfig, {
     rules: [
       {
         test: /\.css$/,
-        exclude: /node_modules/,
         use: [{ loader: MiniCssExtractPlugin.loader }, 'css-loader', 'postcss-loader']
       },
       {
