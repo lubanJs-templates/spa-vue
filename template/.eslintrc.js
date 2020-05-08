@@ -1,9 +1,10 @@
 module.exports = {
+  root: true,
   env: {
     browser: true,
     es6: true
   },
-  extends: ['plugin:vue/essential', 'standard'],
+  extends: ['plugin:vue/essential', 'plugin:prettier/recommended'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly'
@@ -15,8 +16,19 @@ module.exports = {
   },
   plugins: ['vue'],
   rules: {
+    'prettier/prettier': [
+      'error',
+      {
+        "endOfLine": "lf",
+        "printWidth": 200,
+        "semi": false,
+        "singleQuote": true,
+        "tabWidth": 2,
+        "trailingComma": "none",
+        "useTabs": false
+      }
+  ],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'space-before-function-paren': 'off'
   }
 }

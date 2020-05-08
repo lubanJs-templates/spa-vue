@@ -15,10 +15,14 @@ module.exports = merge(commonConfig, {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|vue)$/,
+        enforce: 'pre',
         exclude: /node_modules/,
         include: path.resolve(__dirname, '../src'),
-        use: ['eslint-loader']
+        loader: 'eslint-loader',
+        options: {
+          fix: true
+        },
       },
       {
         test: /\.css$/,
