@@ -15,6 +15,7 @@ module.exports = {
       '@pages': resolve('../src/pages'),
       '@style': resolve('../src/style'),
       '@utils': resolve('../src/utils'),
+      '@const': resolve('../src/const'),
       '@': resolve('../src')
     },
     tags: ['static/fonts'] //加入到html中的标签路径

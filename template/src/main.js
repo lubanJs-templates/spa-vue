@@ -1,9 +1,13 @@
 import Vue from 'vue'
+import 'normalize.css'
 import App from './App'
 import router from './router'
 import store from './store'
 
 import '@components/element-ui'
+import Icon from '@components/icon'
+
+Vue.use(Icon)
 
 Vue.prototype.$ELEMENT = { size: 'small' }
 

@@ -7,12 +7,8 @@
 </template>
 
 <script>
-import Icon from '../components/icon/index.js'
 export default {
   name: 'Header',
-  components: {
-    Icon
-  }
 }
 </script>
 
