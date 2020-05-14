@@ -15,7 +15,9 @@ import {
   Main,
   Message,
   Tooltip,
-  Scrollbar
+  Scrollbar,
+  Breadcrumb,
+  BreadcrumbItem
 } from 'element-ui'
 
 Vue.use(Button)
@@ -30,3 +32,5 @@ Vue.use(Main)
 Vue.prototype.$message = Message
 Vue.use(Tooltip)
 Vue.use(Scrollbar)
+Vue.use(Breadcrumb)
+Vue.use(BreadcrumbItem)
