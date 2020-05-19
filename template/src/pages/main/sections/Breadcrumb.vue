@@ -1,8 +1,11 @@
 <template>
   <section class="breadcrumb">
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item v-for="item of breadcrumbList" :key="item.path" :to="{ path: item.path }">{{ item.title }}</el-breadcrumb-item>
+      <transition-group name="breadcrumb__transition">
+        <el-breadcrumb-item v-for="item of breadcrumbList" :key="item.path" :to="{ path: item.path }">{{ item.title }}</el-breadcrumb-item>
+      </transition-group>
     </el-breadcrumb>
+    <h3 class="breadcrumb__title">{{ title }}</h3>
   </section>
 </template>
 <script>
@@ -10,7 +13,8 @@ export default {
   name: 'Breadcrumb',
   data() {
     return {
-      breadcrumbList: []
+      breadcrumbList: [],
+      title: ''
     }
   },
   watch: {
@@ -32,7 +36,9 @@ export default {
           title: route.meta.title
         })
       }
+      if (!list.length) return
       this.breadcrumbList = list
+      this.title = list[list.length - 1].title
     }
   }
 }
@@ -40,6 +46,9 @@ export default {
 
 <style lang="less" scoped>
 .breadcrumb {
+  /deep/ .el-breadcrumb {
+    font-size: 14px;
+  }
   /deep/ .el-breadcrumb__separator {
     color: #e3e3e3;
   }
@@ -50,5 +59,23 @@ export default {
       color: #757780;
     }
   }
+}
+.breadcrumb__title {
+  font-size: 24px;
+  margin: 10px 0 20px;
+}
+.breadcrumb__transition-enter-active,
+.breadcrumb__transition-leave-active {
+  transition: all 0.5s;
+}
+
+.breadcrumb__transition-enter,
+.breadcrumb__transition-leave-active {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.breadcrumb__transition-leave-active {
+  position: absolute;
 }
 </style>

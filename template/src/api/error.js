@@ -1,0 +1,1 @@
+/* eslint-disable */'use strict'// basic-error-controllerimport http from 'luban-http'// errorHtmlexport const Error = (query = {}, params = null, config = {}) => http.$GET('error', query, params, config, false)

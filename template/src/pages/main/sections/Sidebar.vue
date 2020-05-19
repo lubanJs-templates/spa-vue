@@ -4,7 +4,7 @@
       <h3 :class="['sidebar__title', { 'sidebar__title--hidden': isCollapse }]">{{ name }}</h3>
       <el-scrollbar>
         <div class="sidebar__menu">
-          <el-menu :default-active="active" class="sidebar__el-menu" text-color="#757780" active-text-color="#4d7bff" unique-opened router :collapse="isCollapse">
+          <el-menu :default-active="active" class="sidebar__el-menu" text-color="#757780" active-text-color="#4d7bff" unique-opened :collapse="isCollapse" @select="handleMunuSelect">
             <SidebarMenuItem v-for="item of menuList" :node="item" :key="item.name" />
           </el-menu>
         </div>
@@ -26,18 +26,16 @@ export default {
     SidebarMenuItem
   },
   data() {
-    const map = convertRoutesToRouterMap(this.$router.mainRoutes)
-    console.log(map)
+    const map = convertRoutesToRouterMap(this.$router.mainRoutes, this.$store.state.user.role)
     return {
       name: APP.name,
       isCollapse: false,
-      menuList: convertRoutesToSidebarMenu(this.$router.mainRoutes),
+      menuList: convertRoutesToSidebarMenu(this.$router.mainRoutes, this.$store.state.user.role),
       active: '',
       routerMap: map.pathMap,
       indexMap: map.indexMap
     }
   },
-  created() {},
   watch: {
     $route: {
       handler: 'setActive',
@@ -47,6 +45,13 @@ export default {
   methods: {
     handleCollapse() {
       this.isCollapse = !this.isCollapse
+    },
+    handleMunuSelect(index, indexPath) {
+      if (index.indexOf('http') === 0) {
+        window.location.href = index
+      } else {
+        this.$router.push(index)
+      }
     },
     setActive(route) {
       const matched = route.matched

@@ -9,7 +9,12 @@
       <SidebarMenuItem v-else-if="child.meta.hidden && child.children" v-for="child2 of child.children" :node="child2" :key="child2.path">{{ child2.meta.title }}</SidebarMenuItem>
     </template>
   </el-submenu>
-  <el-menu-item v-else-if="!node.meta.hidden" :index="node.path" :key="node.path" :disabled="node.meta.disabled">
+  <el-menu-item
+    v-else-if="!node.meta.hidden && (!node.meta.roles || (node.meta.roles && node.meta.roles.includes($store.state.user.role)))"
+    :index="node.meta.url || node.path"
+    :key="node.path"
+    :disabled="node.meta.disabled"
+  >
     <Icon class="sidebar-menu-item__icon" :iconName="node.meta.icon" />
     <span class="sidebar-menu-item__menu-title" slot="title">{{ node.meta.title }}</span>
   </el-menu-item>

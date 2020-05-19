@@ -5,7 +5,7 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const fs = require('fs')
 
-const config = require('./config')
+const config = require('../config/webpack')
 
 const beforePlugins = [new VueLoaderPlugin(), new FriendlyErrorsWebpackPlugin()]
 

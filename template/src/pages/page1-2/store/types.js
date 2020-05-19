@@ -1,0 +1,5 @@
+export default {
+  ADD_NUM: 'ADD_NUM',
+  SUBTRACT_NUM: 'SUBTRACT_NUM',
+  SET_DB_TYPES: 'SET_DB_TYPES'
+}

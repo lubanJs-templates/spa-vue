@@ -5,8 +5,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 
 const commonConfig = require('./webpack.com.config')
-const proxyTable = require('../proxyTable')
-const config = require('./config')
+const proxy = require('../config/proxy')
+const config = require('../config/webpack')
 
 module.exports = merge(commonConfig, {
   output: {
@@ -63,6 +63,6 @@ module.exports = merge(commonConfig, {
     overlay: true,
     open: false,
     quiet: true,
-    proxy: proxyTable
+    proxy
   }
 })

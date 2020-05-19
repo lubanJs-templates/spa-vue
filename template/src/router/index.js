@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import http from 'luban-http'
 
-import asyncRoutes from './asyncRoutes'
+import asyncRoutes from './config/asyncRoutes'
 import config from './config'
-import { addRoutesToMainPage, convertRoutesToVueRoutes } from '@helpers/router'
+import { addRoutesToMainPage, convertRoutesToVueRoutes } from './helper'
+import authentication from './authentication'
+
 import MainPage from '../pages/main'
 
 Vue.use(VueRouter)
@@ -26,6 +29,13 @@ const createRouter = (routes) =>
   new VueRouter({
     mode: config.mode,
     base: config.base,
+    scrollBehavior(to, from, savedPosition) {
+      if (savedPosition) {
+        return savedPosition
+      } else {
+        return { x: 0, y: 0 }
+      }
+    },
     routes
   })
 const routes = initRoutes()
@@ -39,26 +49,35 @@ router.resetAsyncRouter = (mainRoutes = []) => {
   router.mainRoutes = mainRoutes
   Vue.$isSuccessFetchAsyncRoutes = true
 }
-router.beforeEach((to, from, next) => {
-  // 如果是白名单里的路由直接放行
-  console.log(to)
-  if (config.whitelist[to.path]) {
+router.beforeEach(async (to, from, next) => {
+  http.clearHttpRequestList()
+  // 验证步骤
+  // 1. 是否在白名单
+  if (config.whitelist[to.name]) {
     next()
     return
   }
-  // 如果未开启异步获取路由直接放行
-  if (!config.async) {
-    next()
-    return
+  // 2. 获取用户
+  const store = router.app.$options.store
+  const { sn } = store.state.user
+  if (!sn) {
+    await store.dispatch('user/fetchUser')
   }
-  // 如果获取异步路由状态为未成功则发送请求获取路由
-  if (!Vue.$isSuccessFetchAsyncRoutes) {
-    asyncRoutes.then((routes) => {
+  // 3. 是否为异步获取路由
+  if (config.async) {
+    if (!Vue.$isSuccessFetchAsyncRoutes) {
+      const routes = await asyncRoutes
       router.resetAsyncRouter(routes)
-      next({ path: to.path })
-    })
-    return
+      next(to.path)
+      return
+    }
   }
-  next()
+
+  // 4. 鉴权
+  authentication({
+    router,
+    to,
+    next
+  })
 })
 export default router

@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-const config = require('./config')
+const config = require('../config/webpack')
 
 module.exports = {
   mode: 'production', // 环境

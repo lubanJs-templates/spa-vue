@@ -15,7 +15,6 @@
       <el-aside class="datacenter-v3-layout__menu-box" width="initial">
         <slot name="menu"></slot>
       </el-aside>
-
       <el-main class="datacenter-v3-layout__main-box">
         <slot name="main"></slot>
       </el-main>

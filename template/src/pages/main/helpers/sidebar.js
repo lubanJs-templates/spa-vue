@@ -1,11 +1,15 @@
-export const convertRoutesToRouterMap = (routes) => {
+export const convertRoutesToRouterMap = (routes, role) => {
   const map = {
     pathMap: {},
     indexMap: {}
   }
   let index = 1
   const createMap = (route) => {
-    if (!route.hidden && (!route.children || !route.children.filter((item) => !item.hidden).length)) {
+    if (
+      !route.hidden &&
+      (!route.roles || (route.roles && route.roles.includes(role))) &&
+      (!route.children || !route.children.filter((item) => !item.hidden && (!item.roles || (item.roles && item.roles.includes(role)))).length)
+    ) {
       map.pathMap[route.path] = index
       map.indexMap[index] = route.path
       index++
@@ -23,7 +27,7 @@ export const convertRoutesToRouterMap = (routes) => {
   return map
 }
 
-export const convertRoutesToSidebarMenu = (routes) => {
+export const convertRoutesToSidebarMenu = (routes, role) => {
   const menu = []
   const createSidebarMenu = (route) => {
     let routeObj = {
@@ -31,7 +35,9 @@ export const convertRoutesToSidebarMenu = (routes) => {
       meta: {
         icon: route.icon || '',
         title: route.title || '',
-        hidden: route.hidden || false
+        hidden: route.hidden || false,
+        url: route.url || '',
+        roles: route.roles || null
       }
     }
     if (route.children) {
@@ -39,7 +45,7 @@ export const convertRoutesToSidebarMenu = (routes) => {
       for (let item of route.children) {
         routeObj.children.push(createSidebarMenu(item))
       }
-      routeObj.children = routeObj.children.filter((item) => !item.meta.hidden)
+      routeObj.children = routeObj.children.filter((item) => !item.meta.hidden && (!item.meta.roles || (item.meta.roles && item.meta.roles.includes(role))))
       if (!routeObj.children.length) {
         delete routeObj.children
       }

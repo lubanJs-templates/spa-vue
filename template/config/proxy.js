@@ -4,11 +4,11 @@
 // changeOrigin：如果 true ，那么 http://localhost:8080/proxy/user/list 变为 http://your_api_server.com/proxy/user/list。
 // pathRewrite：重写路径。匹配 /proxy ，然后变为'' ，那么 url 最终为 http://your_api_server.com/user/list。
 module.exports = {
-  // '/proxy': {
-  //   target: 'http://your_api_server.com',
+  // '/api': {
+  //   target: 'http://192.168.20.54:8083',
   //   changeOrigin: true,
   //   pathRewrite: {
-  //     '^/proxy': ''
+  //     '^/api': '/api'
   //   }
   // }
 }

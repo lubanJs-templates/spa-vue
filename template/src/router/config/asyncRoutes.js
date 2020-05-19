@@ -2,29 +2,24 @@ export default new Promise((resolve) => {
   setTimeout(() => {
     resolve([
       {
-        path: 'page',
+        path: '/page1',
         icon: 'iconic_xiaoxi',
-        title: 'page',
+        title: 'page1',
+        componentName: 'page1',
         children: [
           {
-            path: '/page1',
+            path: '/page1-1',
             icon: 'iconic_xiaoxi',
-            title: 'page1',
-            componentName: 'page1',
-            children: [
-              {
-                path: '/page2-1',
-                icon: 'iconic_xiaoxi',
-                title: 'page2-1',
-                componentName: 'page1-1'
-              }
-            ]
+            title: 'page1-1',
+            componentName: 'page1-1',
+            roles: [1]
           },
           {
             path: '/page1-2',
             icon: 'iconic_xiaoxi',
-            title: 'page1-1',
-            componentName: 'page1-1'
+            title: 'page1-2',
+            componentName: 'page1-2',
+            roles: [1]
           }
         ]
       },

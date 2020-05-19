@@ -14,7 +14,9 @@
     </template>
     <template v-slot:main>
       <Breadcrumb />
-      <router-view />
+      <transition name="fade-transform">
+        <router-view></router-view>
+      </transition>
     </template>
   </DatacenterV3Layout>
 </template>

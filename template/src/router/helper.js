@@ -34,8 +34,10 @@ export const convertRoutesToVueRoutes = (rootRoutes) => {
     let routeObj = {
       path: route.path,
       meta: {
-        title: route.title
+        title: route.title || route.name || '',
+        roles: route.roles || null
       },
+      name: route.name || route.componentName || route.title || null,
       component: route.componentName ? lazyload(route.componentName) : route.component
     }
     if (route.children) {

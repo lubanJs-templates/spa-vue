@@ -16,7 +16,9 @@ module.exports = {
       '@style': resolve('../src/style'),
       '@utils': resolve('../src/utils'),
       '@const': resolve('../src/const'),
-      '@helpers': resolve('../src/helpers'),
+      '@mixins': resolve('../src/mixins'),
+      '@store': resolve('../src/store'),
+      '@router': resolve('../src/router'),
       '@': resolve('../src')
     },
     tags: ['static/fonts'] //加入到html中的标签路径
@@ -24,7 +26,7 @@ module.exports = {
   // 用于第三方包分离，加快打包速度
   dll: {
     entry: {
-      vendors: ['vue', 'vue-router', 'vuex'] // 将不经常变的第三方库打包
+      vendors: ['vue', 'vue-router', 'vuex', 'luban-http'] // 将不经常变的第三方库打包
     },
     outputPath: '../public/static/libs' // dll文件输出路径
   },

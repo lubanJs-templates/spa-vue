@@ -6,6 +6,7 @@ const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plug
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const smp = new SpeedMeasurePlugin()
@@ -35,6 +36,13 @@ const webpackConfig = merge.smart(commonConfig, {
     }),
     new MiniCssExtractPlugin({
       filename: 'static/css/[id]_[contenthash:6].css'
+    }),
+    new CompressionWebpackPlugin({
+      filename: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: new RegExp('\\.(js|css)$'),
+      threshold: 10240,
+      minRatio: 0.8
     }),
     new CopyWebpackPlugin([
       {
