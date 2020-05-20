@@ -61,8 +61,8 @@ let plugins = beforePlugins.concat(dllReferenceList, htmlWebpackplugin)
 module.exports = {
   entry: path.resolve(__dirname, '../src/main.js'),
   output: {
-    filename: 'static/js/[name]_bundle.js',
-    chunkFilename: 'static/js/[name]_chunk.js',
+    filename: 'static/js/[name].bundle.js',
+    chunkFilename: 'static/js/[name].chunk.js',
     path: path.resolve(__dirname, '../dist'),
     publicPath: ''
   },
