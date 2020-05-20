@@ -85,13 +85,13 @@ export default {
     min-width: 58px;
   }
   /deep/ .el-scrollbar__wrap {
-    overflow: auto;
+    overflow-x:hidden
   }
 }
 .sidebar__menu {
   flex: 1;
   min-height: 0;
-  overflow: auto;
+  overflow: hidden;
 }
 .sidebar__menu-box {
   display: flex;
