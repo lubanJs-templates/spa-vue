@@ -85,7 +85,7 @@ export default {
     min-width: 58px;
   }
   /deep/ .el-scrollbar__wrap {
-    overflow-x:hidden
+    overflow-x: hidden;
   }
 }
 .sidebar__menu {

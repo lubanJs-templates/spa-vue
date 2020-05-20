@@ -43,14 +43,14 @@ function excuteCommonTags() {
 }
 
 addTagsToHtml('static/libs', (file, publicPath) => {
-  if (/.*\.manifest.json/.test(file)) {
+  if (/.*\.manifest.json$/.test(file)) {
     dllReferenceList.push(
       new webpack.DllReferencePlugin({
         manifest: require(path.resolve(__dirname, '../public', publicPath, file))
       })
     )
   }
-  if (/.*\.dll.js/.test(file)) {
+  if (/.*\.dll.js$/.test(file)) {
     htmlWebpackplugin.options.static.js.push(path.join(publicPath, file))
   }
 })

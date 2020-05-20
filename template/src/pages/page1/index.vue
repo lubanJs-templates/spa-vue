@@ -1,10 +1,7 @@
 <template>
-  <div>
-    {{ username }}
-    <transition name="fade-transform">
-      <router-view />
-    </transition>
-  </div>
+  <transition name="fade-transform">
+    <router-view />
+  </transition>
 </template>
 
 <script>

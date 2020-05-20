@@ -26,7 +26,15 @@ module.exports = {
   // 用于第三方包分离，加快打包速度
   dll: {
     entry: {
-      vendors: ['vue', 'vue-router', 'vuex', 'luban-http'] // 将不经常变的第三方库打包
+      vendors: ['vue', 'vue-router', 'vuex', 'luban-http', 'nprogress'] // 将不经常变的第三方库打包
+    },
+    resolve: {
+      alias: {
+        'vue': resolve('../node_modules/vue/dist/vue.min.js'),
+        'vue-router': resolve('../node_modules/vue-router/dist/vue-router.min.js'),
+        'vuex': resolve('../node_modules/vuex/dist/vuex.min.js'),
+        'luban-http': resolve('../node_modules/luban-http/build/index.js')
+    }
     },
     outputPath: '../public/static/libs' // dll文件输出路径
   },
