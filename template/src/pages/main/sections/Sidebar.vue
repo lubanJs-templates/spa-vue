@@ -79,6 +79,14 @@ export default {
   background: #fff;
   padding-right: 14px;
   box-sizing: content-box;
+  /deep/ .el-scrollbar {
+    flex: 1;
+    min-height: 0;
+    min-width: 58px;
+  }
+  /deep/ .el-scrollbar__wrap {
+    overflow: auto;
+  }
 }
 .sidebar__menu {
   flex: 1;
